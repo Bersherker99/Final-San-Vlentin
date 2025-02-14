@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Johana - Día de San Valentín</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000000;
+            color: #ff4081;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 64, 129, 0.5);
+            max-width: 90%;
+            width: 400px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #ff4081; /* No cambiar el color de este texto */
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #ffffff; /* Color del cuerpo del mensaje cambiado a blanco */
+        }
+
+        .signature {
+            font-weight: bold;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #ff4081;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #d81b60;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .heart-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            animation: heartbeat 1.5s infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff4081;
+            transform: rotate(-45deg);
+            top: 0;
+            left: 0;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff4081;
+            border-radius: 50%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .heart.open {
+            opacity: 0;
+        }
+
+        .image-container {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .image-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 64, 129, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .lyrics {
+            color: #ffcc80; /* Color de la letra de la canción */
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Feliz Día de San Valentín, Johana! ❤️</h1>
+        <p>Johana, desde el momento en que te conocí, mi vida cambió por completo. Eres la persona más especial para mí y quiero que sepas que te amo con todo mi corazón.</p>
+        <p>Eres la primera que hizo que mi pensamiento cambiara por completo, aquella persona que era fría,</p>
+        <p>aquella persona que no le gustaba dar ni un pétalo de una rosa a alguien,</p>
+        <p>aquella persona que no le gusta que la abracen o que estén muy cerca de él,</p>
+        <p>desaparece cuando está a tu lado y agradezco mucho que me hayas hecho sacar esa parte</p>
+        <p>de mí que por mucho tiempo dije que nunca sería así y ahora tú tienes el privilegio de conocerla,</p>
+        <p>y la verdad me gusta esa parte de mí aunque a veces doy demasiado y recibo poco, no interesa</p>
+        <p>si al final del día veo una sonrisa marcada en tu rostro.</p>
+        <p class="signature">Att: Carlos</p>
+        <button id="heartButton">💖 Toca aquí 💖</button>
+        <p id="hiddenMessage" class="hidden">Siempre ocuparás un lugar en mi corazón y hablando de corazones presiona mi corazón para que veas lo que en este momento guarda en su interior💕</p>
+    </div>
+
+    <div class="heart-container" id="heart">
+        <div class="heart"></div>
+        <div class="image-container" id="imageContainer">
+            <img src="tu-imagen.jpg" alt="Imagen de Johana">
+        </div>
+    </div>
+
+    <audio id="music" src="tu-musica.mp3"></audio>
+
+    <div class="lyrics" id="lyrics"></div>
+
+    <script>
+        const lyricsLines = [
+            "El universo te puedo dar",
+            "solo por un instante de tu mirar",
+            "puedo parar el tiempo cuando estas cerca de mí",
+            "quiero borrar todas las dudas que",
+            "me hacen mal, saber el camino",
+            "para encontrar ese destino que siempre",
+            "imagino junto a ti, TANTAS COSAS ",
+            "QUE QUIERO DECIRTE, se quedan en silencio ",
+            "no encuentro el momento, el ruido de la ciudad, ",
+            "no me permite llegar a tu CORAZON ",
+            "y aunque trato de ocultar lo que siento",
+            "siempre ocupas tú mi pensamiento",
+            "ya no puedo fingir lo que el corazón",
+            "siente por ti, tú me atrapas",
+            "con esa sonrisa ya no vivo esta",
+            "vida deprisa, ven dame tu mano",
+            "Para huir de esta terrible",
+            "oscuridaaaaaaaaaad",
+            "tan tan",
+            // Añade más líneas según sea necesario
+        ];
+
+        document.getElementById('heartButton').addEventListener('click', function() {
+            const message = document.getElementById('hiddenMessage');
+            message.classList.toggle('hidden');
+            message.classList.add('fade-in');
+        });
+
+        document.getElementById('heart').addEventListener('click', function() {
+            const heart = this.querySelector('.heart');
+            heart.classList.add('open');
+            setTimeout(() => {
+                document.getElementById('imageContainer').style.display = 'block';
+                document.getElementById('music').play();
+                displayLyrics();
+            }, 500);
+        });
+
+        function displayLyrics() {
+            const lyricsContainer = document.getElementById('lyrics');
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < lyricsLines.length) {
+                    lyricsContainer.innerHTML = lyricsLines[index];
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 4195); // Cambia el intervalo de tiempo según sea necesario
+        }
+    </script>
+</body>
+</html>
